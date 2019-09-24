@@ -1,18 +1,35 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import "./App.css";
+import axios from "axios"
 
 class App extends Component {
+  constructor(){
+    super();
+
+    this.state = {
+      blastoise: ''
+    }
+  }
+
+  componentDidMount() {
+    axios.get('https://pokeapi.co/api/v2/pokemon/9').then(res => {
+      console.log(res)
+      this.setState({
+        blastoise: res.data
+      })
+    })
+  }
+
   render() {
+    let blastoise = (index) => this.state.blastoise.abilities ? this.state.blastoise.abilities[index].ability.name : 'loading'
+    console.log(blastoise)
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+        <div>
+          <h3>{blastoise(0)}</h3>
+          <h3>{blastoise(1)}</h3>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
       </div>
     );
   }
